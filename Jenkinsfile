@@ -19,5 +19,26 @@ pipeline{
                 sh 'ls -R'
             }
         }
-    }
+
+        stage('Visualizar archivo en especifico'){
+            steps{
+                script {
+                    def archvoABuscar = "helloworld.txt"
+                    if(fileExists(archvoABuscar)){
+                        echo "El archivo ${archvoABuscar} existe"
+                        sh "cat ${archvoABuscar}"
+                    }
+                    else{
+                        echo "El archivo ${archvoABuscar} no existe"
+                    }
+                }
+            }
+        }
+
+        stage('Compilar proyecto'){
+            steps{
+                echo 'Compilando proyecto'
+                sh 'javac HelloWorld.java'
+            }
+        }
 }
