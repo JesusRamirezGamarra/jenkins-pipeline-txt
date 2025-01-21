@@ -2,7 +2,7 @@ pipeline{
     agent any
 
     triggers{
-        githubpush() // Escuchgar cuando ocurra un evento push en el repositorio
+        githubPush() // Escuchgar cuando ocurra un evento push en el repositorio
     }
 
     stages{
