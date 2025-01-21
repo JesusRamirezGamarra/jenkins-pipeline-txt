@@ -38,7 +38,6 @@ pipeline{
         stage('Compilar proyecto'){
             steps{
                 echo 'Compilando proyecto'
-                sh 'javac HelloWorld.java'
             }
         }
     }
