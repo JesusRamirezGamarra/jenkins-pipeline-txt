@@ -1,44 +1,52 @@
-pipeline{
+pipeline {
     agent any
 
-    triggers{
-        githubPush() // Escuchgar cuando ocurra un evento push en el repositorio
+    triggers {
+        githubPush() // Escucha eventos de push en el repositorio
     }
 
-    stages{
-        stage('Clonar repositorio'){
-            steps{
-                echo 'Clonando repositorio'
-                git branch: 'develop', url: 'https://github.com/JesusRamirezGamarra/jenkins-pipeline-txt'
+    environment {
+        RECIPIENT_EMAIL = 'luciojesusramirezgamarra@gmail.com' // Correo para notificaciones
+    }
+
+    stages {
+        stage('Clonar repositorio') {
+            steps {
+                echo 'Clonando repositorio desde la rama lunes'
+                git branch: 'lunes', url: 'https://github.com/JesusRamirezGamarra/pipeline-git-simple-rama-Lunes.git'
             }
         }
 
-        stage('Listar estructura de proyecto'){
-            steps{
+        stage('Listar estructura de proyecto') {
+            steps {
                 echo 'Listar estructura de proyecto'
                 sh 'ls -R'
             }
         }
 
-        stage('Visualizar archivo en especifico'){
-            steps{
+        stage('Ejecutar prueba simple') {
+            steps {
                 script {
-                    def archivoABuscar = "helloworld.txt" // Corrige el nombre de la variable
-                    if(fileExists(archivoABuscar)){
-                        echo "El archivo ${archivoABuscar} existe"
-                        sh "cat ${archivoABuscar}"
-                    }
-                    else{
-                        echo "El archivo ${archivoABuscar} no existe"
-                    }
+                    echo 'Ejecutando prueba simple'
+                    // Simulamos un proceso que puede fallar
+                    sh '''
+                    echo "Iniciando prueba simple..."
+                    exit 1 # Simula un error
+                    '''asdasd
                 }
             }
         }
+    }
 
-        stage('Compilar proyecto'){
-            steps{
-                echo 'Compilando proyecto'
-            }
+    post {
+        success {
+            echo 'Pipeline ejecutado correctamente.'
+        }
+        failure {
+            echo 'Error en el pipeline. Enviando notificación por correo...'
+            mail to: "${RECIPIENT_EMAIL}",
+                subject: "Error en el Pipeline: pipeline-git-simple-rama-Lunes",
+                body: "Hubo un error durante la ejecución del pipeline en la rama 'lunes'. Por favor, revisa los registros en Jenkins."
         }
     }
 }
