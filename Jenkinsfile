@@ -23,13 +23,13 @@ pipeline{
         stage('Visualizar archivo en especifico'){
             steps{
                 script {
-                    def archvoABuscar = "helloworld.txt"
-                    if(fileExists(archvoABuscar)){
-                        echo "El archivo ${archvoABuscar} existe"
-                        sh "cat ${archvoABuscar}"
+                    def archivoABuscar = "helloworld.txt" // Corrige el nombre de la variable
+                    if(fileExists(archivoABuscar)){
+                        echo "El archivo ${archivoABuscar} existe"
+                        sh "cat ${archivoABuscar}"
                     }
                     else{
-                        echo "El archivo ${archvoABuscar} no existe"
+                        echo "El archivo ${archivoABuscar} no existe"
                     }
                 }
             }
